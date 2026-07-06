@@ -103,9 +103,9 @@ export default function FarmerSettingsPage() {
   return (
     <main className="min-h-screen bg-parchment">
       <Navbar />
-      <section className="mx-auto max-w-lg px-5 py-12">
-        <h1 className="font-display text-3xl font-semibold text-ink">Payout details</h1>
-        <p className="mt-2 font-body text-ink/60">
+      <section className="mx-auto max-w-lg px-4 py-8 sm:px-5 sm:py-12">
+        <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">Payout details</h1>
+        <p className="mt-2 font-body text-sm text-ink/60 sm:text-base">
           Add your bank account so AgriLink can pay you once a buyer confirms delivery.
         </p>
 
@@ -115,14 +115,14 @@ export default function FarmerSettingsPage() {
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
           <div>
-            <label className="mb-1 block font-body text-sm font-semibold text-ink">Bank</label>
+            <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">Bank</label>
             <select
               required
               value={bankCode}
               onChange={(e) => setBankCode(e.target.value)}
-              className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-ink"
+              className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3"
             >
               <option value="">{banks.length ? "Choose your bank" : "Loading banks…"}</option>
               {banks.map((b) => (
@@ -134,24 +134,24 @@ export default function FarmerSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1 block font-body text-sm font-semibold text-ink">Account number</label>
+            <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">Account number</label>
             <input
               required
               value={accountNumber}
               onChange={(e) => setAccountNumber(e.target.value)}
               placeholder="10-digit NUBAN"
               maxLength={10}
-              className="tap-target w-full rounded-xl border border-forest/20 px-4 font-mono text-ink"
+              className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-mono text-sm text-ink sm:py-3"
             />
           </div>
 
-          {error && <p className="font-body text-sm text-clay">{error}</p>}
-          {success && <p className="font-body text-sm text-forest">{success}</p>}
+          {error && <p className="font-body text-xs text-clay sm:text-sm">{error}</p>}
+          {success && <p className="font-body text-xs text-forest sm:text-sm">{success}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="tap-target w-full rounded-full bg-forest px-6 py-3.5 font-body font-semibold text-parchment shadow-soft hover:bg-forest-dark disabled:opacity-60"
+            className="tap-target w-full rounded-full bg-forest px-6 py-3 font-body text-sm font-semibold text-parchment shadow-soft hover:bg-forest-dark disabled:opacity-60 sm:py-3.5 sm:text-base"
           >
             {loading ? "Verifying account…" : "Save bank details"}
           </button>

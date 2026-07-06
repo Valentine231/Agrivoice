@@ -49,27 +49,27 @@ export default function LandingPage() {
           </svg>
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-5 py-20 sm:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-20 md:py-28">
+          <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-2">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-harvest/15 px-4 py-1.5 font-body text-xs font-semibold uppercase tracking-wide text-harvest-light">
+              <span className="inline-flex items-center gap-2 rounded-full bg-harvest/15 px-3 py-1 font-body text-xs font-semibold uppercase tracking-wide text-harvest-light sm:px-4 sm:py-1.5">
                 Farm → Buyer → Delivered
               </span>
-              <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
+              <h1 className="mt-4 font-display text-2xl font-semibold leading-[1.1] text-parchment sm:mt-6 sm:text-4xl md:text-5xl lg:text-6xl">
                 {t("tagline")}
               </h1>
-              <p className="mt-6 max-w-lg font-body text-lg text-parchment/80">{t("heroSub")}</p>
+              <p className="mt-4 max-w-lg font-body text-sm text-parchment/80 sm:mt-6 sm:text-lg">{t("heroSub")}</p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:gap-4 sm:flex-row">
                 <Link
                   href="/farmer/upload"
-                  className="tap-target inline-flex items-center justify-center rounded-full bg-harvest px-8 py-4 font-body text-base font-semibold text-forest-dark shadow-soft transition hover:bg-harvest-light"
+                  className="tap-target inline-flex items-center justify-center rounded-full bg-harvest px-6 py-3 font-body text-sm font-semibold text-forest-dark shadow-soft transition hover:bg-harvest-light sm:px-8 sm:py-4 sm:text-base"
                 >
                   {t("getStartedFarmer")}
                 </Link>
                 <Link
                   href="/buyer/marketplace"
-                  className="tap-target inline-flex items-center justify-center rounded-full border-2 border-parchment/30 px-8 py-4 font-body text-base font-semibold text-parchment transition hover:bg-parchment/10"
+                  className="tap-target inline-flex items-center justify-center rounded-full border-2 border-parchment/30 px-6 py-3 font-body text-sm font-semibold text-parchment transition hover:bg-parchment/10 sm:px-8 sm:py-4 sm:text-base"
                 >
                   {t("getStartedBuyer")}
                 </Link>
@@ -78,17 +78,17 @@ export default function LandingPage() {
 
             {/* Signature element: the farm-to-hand journey, a real sequence */}
             <div className="relative">
-              <div className="rounded-2xl border border-parchment/15 bg-forest-light/60 p-6 shadow-soft backdrop-blur">
-                <p className="mb-5 font-body text-xs font-semibold uppercase tracking-widest text-harvest-light">
+              <div className="rounded-2xl border border-parchment/15 bg-forest-light/60 p-4 shadow-soft backdrop-blur sm:p-6">
+                <p className="mb-4 font-body text-xs font-semibold uppercase tracking-widest text-harvest-light sm:mb-5">
                   How a sale moves
                 </p>
-                <ol className="space-y-5">
+                <ol className="space-y-4 sm:space-y-5">
                   {JOURNEY.map((j, i) => (
-                    <li key={j.step} className="flex gap-4">
-                      <span className="font-mono text-sm text-harvest-light/80">{j.step}</span>
-                      <div className="flex-1 border-l border-parchment/15 pb-1 pl-4">
-                        <p className="font-display text-lg font-medium">{j.en.title}</p>
-                        <p className="mt-1 font-body text-sm text-parchment/70">{j.en.body}</p>
+                    <li key={j.step} className="flex gap-3 sm:gap-4">
+                      <span className="font-mono text-xs text-harvest-light/80 sm:text-sm">{j.step}</span>
+                      <div className="flex-1 border-l border-parchment/15 pb-1 pl-3 sm:pl-4">
+                        <p className="font-display text-sm font-medium sm:text-lg">{j.en.title}</p>
+                        <p className="mt-0.5 font-body text-xs text-parchment/70 sm:mt-1 sm:text-sm">{j.en.body}</p>
                       </div>
                       {i < JOURNEY.length - 1 && (
                         <span className="sr-only">then</span>

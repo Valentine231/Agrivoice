@@ -231,14 +231,14 @@ export default function FarmerUploadPage() {
   return (
     <main className="min-h-screen bg-parchment">
       <Navbar />
-      <section className="mx-auto max-w-2xl px-5 py-12">
-        <h1 className="font-display text-3xl font-semibold text-ink">{t("uploadHarvest")}</h1>
-        <p className="mt-2 font-body text-ink/60">Fill in a few simple details — it only takes a minute.</p>
+      <section className="mx-auto max-w-2xl px-4 py-8 sm:px-5 sm:py-12">
+        <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">{t("uploadHarvest")}</h1>
+        <p className="mt-2 font-body text-sm text-ink/60 sm:text-base">Fill in a few simple details — it only takes a minute.</p>
 
-        <form onSubmit={handleSubmit} className="mt-10 space-y-8">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6 sm:mt-10 sm:space-y-8">
           <div>
-            <p className="mb-3 font-body text-sm font-semibold text-ink">{t("categories")}</p>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+            <p className="mb-3 font-body text-xs font-semibold text-ink sm:text-sm">{t("categories")}</p>
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
               {CATEGORY_OPTIONS.map((c) => (
                 <button
                   type="button"
@@ -248,17 +248,17 @@ export default function FarmerUploadPage() {
                     category === c.key ? "border-forest bg-forest/5" : "border-forest/10 bg-white"
                   }`}
                 >
-                  <span className="text-3xl" aria-hidden>
+                  <span className="text-2xl sm:text-3xl" aria-hidden>
                     {c.emoji}
                   </span>
-                  <span className="text-center font-body text-xs font-semibold text-ink">{CATEGORY_LABELS[c.key]}</span>
+                  <span className="text-center font-body text-xs font-semibold text-ink sm:text-xs">{CATEGORY_LABELS[c.key]}</span>
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <p className="mb-3 font-body text-sm font-semibold text-ink">{t("takePhoto")}</p>
+            <p className="mb-3 font-body text-xs font-semibold text-ink sm:text-sm">{t("takePhoto")}</p>
             <input
               ref={fileInputRef}
               type="file"
@@ -270,25 +270,25 @@ export default function FarmerUploadPage() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="tap-target flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-forest/30 bg-white py-10 text-forest"
+              className="tap-target flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-forest/30 bg-white py-8 sm:py-10 text-forest"
             >
               {imagePreview ? (
-                <div className="relative h-40 w-40 overflow-hidden rounded-xl">
+                <div className="relative h-32 w-32 overflow-hidden rounded-xl sm:h-40 sm:w-40">
                   <Image src={imagePreview} alt="Your harvest" fill className="object-cover" unoptimized />
                 </div>
               ) : (
                 <>
-                  <span className="text-4xl" aria-hidden>
+                  <span className="text-3xl sm:text-4xl" aria-hidden>
                     📷
                   </span>
-                  <span className="font-body text-sm font-semibold">{t("takePhoto")}</span>
+                  <span className="font-body text-xs font-semibold sm:text-sm">{t("takePhoto")}</span>
                 </>
               )}
             </button>
-            {uploadState === "uploading" && <p className="mt-2 font-body text-sm text-sky">Uploading photo…</p>}
-            {uploadState === "done" && <p className="mt-2 font-body text-sm text-forest">Photo uploaded ✓</p>}
+            {uploadState === "uploading" && <p className="mt-2 font-body text-xs text-sky sm:text-sm">Uploading photo…</p>}
+            {uploadState === "done" && <p className="mt-2 font-body text-xs text-forest sm:text-sm">Photo uploaded ✓</p>}
             {uploadState === "error" && (
-              <p className="mt-2 font-body text-sm text-clay">
+              <p className="mt-2 font-body text-xs text-clay sm:text-sm">
                 Couldn't upload — add your Cloudinary keys in .env.local to enable this in production.
               </p>
             )}
@@ -296,65 +296,65 @@ export default function FarmerUploadPage() {
 
           <div className="space-y-4">
             <div>
-              <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("cropName")}</label>
+              <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("cropName")}</label>
               <input
                 required
                 value={cropName}
                 onChange={(e) => setCropName(e.target.value)}
                 placeholder="e.g. Tomatoes"
-                className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-lg text-ink"
+                className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3 sm:text-lg"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               <div>
-                <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("quantity")}</label>
+                <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("quantity")}</label>
                 <input
                   required
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="e.g. 20 baskets"
-                  className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-lg text-ink"
+                  className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3 sm:text-lg"
                 />
               </div>
               <div>
-                <label className="mb-1 block font-body text-sm font-semibold text-ink">Sold per</label>
+                <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">Sold per</label>
                 <input
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
                   placeholder="e.g. basket"
-                  className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-lg text-ink"
+                  className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3 sm:text-lg"
                 />
               </div>
             </div>
             <div>
-              <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("price")} (₦)</label>
+              <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("price")} (₦)</label>
               <input
                 required
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="e.g. 18000"
-                className="tap-target w-full rounded-xl border border-forest/20 px-4 font-mono text-lg text-ink"
+                className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-mono text-sm text-ink sm:py-3 sm:text-lg"
               />
             </div>
             <div>
-              <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("location")}</label>
+              <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("location")}</label>
               <input
                 required
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="e.g. Kaduna"
-                className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-lg text-ink"
+                className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3 sm:text-lg"
               />
             </div>
           </div>
 
-          {submitError && <p className="font-body text-sm text-clay">{submitError}</p>}
+          {submitError && <p className="font-body text-xs text-clay sm:text-sm">{submitError}</p>}
 
           <button
             type="submit"
             disabled={!category || submitting}
-            className="tap-target w-full rounded-full bg-harvest px-6 py-4 font-body text-lg font-semibold text-forest-dark shadow-soft hover:bg-harvest-light disabled:cursor-not-allowed disabled:opacity-40"
+            className="tap-target w-full rounded-full bg-harvest px-6 py-3.5 font-body text-sm font-semibold text-forest-dark shadow-soft hover:bg-harvest-light disabled:cursor-not-allowed disabled:opacity-40 sm:py-4 sm:text-lg"
           >
             {submitting ? "Publishing…" : t("submit")}
           </button>

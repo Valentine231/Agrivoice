@@ -58,23 +58,23 @@ export default function MarketplacePage() {
   return (
     <main className="min-h-screen bg-parchment">
       <Navbar />
-      <section className="mx-auto max-w-7xl px-5 py-14">
-        <h1 className="font-display text-4xl font-semibold text-ink">{t("marketplace")}</h1>
-        <p className="mt-2 font-body text-ink/60">Fresh listings straight from farmers across Nigeria.</p>
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-14">
+        <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl md:text-4xl">{t("marketplace")}</h1>
+        <p className="mt-2 font-body text-xs text-ink/60 sm:text-sm md:text-base">Fresh listings straight from farmers across Nigeria.</p>
 
         {isDemoData && !loading && (
-          <p className="mt-4 rounded-xl border border-harvest/30 bg-harvest/5 px-4 py-3 font-body text-sm text-ink/70">
-            Showing sample listings — connect Supabase in <code>.env.local</code> to see real ones.
+          <p className="mt-3 rounded-xl border border-harvest/30 bg-harvest/5 px-3 py-2.5 font-body text-xs text-ink/70 sm:mt-4 sm:px-4 sm:py-3 sm:text-sm">
+            Showing sample listings — connect Supabase in <code className="mx-1 bg-forest/5 px-1">.env.local</code> to see real ones.
           </p>
         )}
 
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
             {FILTERS.map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`tap-target rounded-full px-4 py-2 font-body text-sm font-semibold transition ${
+                className={`tap-target rounded-full px-3 py-2 font-body text-xs font-semibold transition sm:px-4 sm:py-2 sm:text-sm ${
                   filter === f
                     ? "bg-forest text-parchment"
                     : "border border-forest/20 bg-white text-forest hover:bg-forest/5"
@@ -90,18 +90,18 @@ export default function MarketplacePage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search crop or state…"
-            className="tap-target w-full rounded-full border border-forest/20 bg-white px-5 font-body text-sm text-ink placeholder:text-ink/40 sm:w-64"
+            className="tap-target w-full rounded-full border border-forest/20 bg-white px-4 py-2.5 font-body text-sm text-ink placeholder:text-ink/40 md:w-64 md:py-2.5"
           />
         </div>
 
         {loading ? (
-          <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-72 animate-pulse rounded-2xl bg-white/60" />
+              <div key={i} className="h-56 animate-pulse rounded-2xl bg-white/60 sm:h-72" />
             ))}
           </div>
         ) : (
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -109,7 +109,7 @@ export default function MarketplacePage() {
         )}
 
         {!loading && products.length === 0 && (
-          <p className="mt-16 text-center font-body text-ink/50">No listings match your search yet.</p>
+          <p className="mt-12 text-center font-body text-xs text-ink/50 sm:mt-16 sm:text-sm">No listings match your search yet.</p>
         )}
       </section>
     </main>

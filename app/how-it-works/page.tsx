@@ -15,19 +15,19 @@ export default function HowItWorksPage() {
   return (
     <main className="min-h-screen bg-parchment">
       <Navbar />
-      <section className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="font-display text-4xl font-semibold text-ink">{t("howItWorks")}</h1>
-        <p className="mt-3 font-body text-ink/60">Four simple steps, from your farm to a buyer's warehouse.</p>
+      <section className="mx-auto max-w-3xl px-4 py-10 sm:px-5 sm:py-16">
+        <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl md:text-4xl">{t("howItWorks")}</h1>
+        <p className="mt-2 font-body text-xs text-ink/60 sm:mt-3 sm:text-sm md:text-base">Four simple steps, from your farm to a buyer's warehouse.</p>
 
-        <div className="mt-12 space-y-8">
+        <div className="mt-8 space-y-5 sm:mt-12 sm:space-y-8">
           {STEPS.map((s) => (
-            <div key={s.title} className="flex gap-5 rounded-2xl border border-forest/10 bg-white p-6 shadow-soft">
-              <span className="text-4xl" aria-hidden>
+            <div key={s.title} className="flex gap-3 rounded-2xl border border-forest/10 bg-white p-4 shadow-soft sm:gap-5 sm:p-6">
+              <span className="text-2xl sm:text-3xl md:text-4xl" aria-hidden>
                 {s.emoji}
               </span>
               <div>
-                <h2 className="font-display text-xl font-semibold text-ink">{s.title}</h2>
-                <p className="mt-1 font-body text-ink/70">{s.body}</p>
+                <h2 className="font-display text-base font-semibold text-ink sm:text-lg md:text-xl">{s.title}</h2>
+                <p className="mt-1 font-body text-xs text-ink/70 sm:text-sm">{s.body}</p>
               </div>
             </div>
           ))}

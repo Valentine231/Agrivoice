@@ -160,20 +160,20 @@ export default function ProductDetailPage() {
     <main className="min-h-screen bg-parchment">
       <Navbar />
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-12 lg:grid-cols-2">
+      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:gap-10 sm:px-5 sm:py-12 lg:grid-cols-2">
         <div>
-          <div className="relative h-80 w-full overflow-hidden rounded-2xl shadow-soft">
+          <div className="relative aspect-square w-full overflow-hidden rounded-2xl shadow-soft sm:h-80">
             <Image src={product.imageUrl} alt={product.cropName} fill className="object-cover" unoptimized />
           </div>
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <span className="rounded-full bg-forest/10 px-3 py-1 font-body text-xs font-semibold text-forest">
               {CATEGORY_LABELS[product.category]}
             </span>
-            <h1 className="mt-3 font-display text-3xl font-semibold text-ink">{product.cropName}</h1>
-            <p className="mt-2 font-body text-ink/60">
+            <h1 className="mt-2 font-display text-2xl font-semibold text-ink sm:mt-3 sm:text-3xl">{product.cropName}</h1>
+            <p className="mt-2 font-body text-sm text-ink/60 sm:text-base">
               {product.quantity} available · {product.state} State · Listed by {product.farmerName}
             </p>
-            <p className="mt-4 font-mono text-2xl font-semibold text-forest">
+            <p className="mt-3 font-mono text-xl font-semibold text-forest sm:mt-4 sm:text-2xl">
               {formatNaira(product.pricePerUnit)}
               <span className="ml-1 font-body text-sm font-normal text-ink/50">/ {product.unit}</span>
             </p>
@@ -185,8 +185,8 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-forest/10 bg-white p-6 shadow-soft sm:p-8">
-          <ol className="mb-8 flex flex-wrap gap-2 font-body text-xs font-semibold text-ink/40">
+        <div className="rounded-2xl border border-forest/10 bg-white p-5 shadow-soft sm:p-6 md:p-8">
+          <ol className="mb-6 flex flex-wrap gap-2 overflow-x-auto font-body text-xs font-semibold text-ink/40 sm:mb-8">
             {["negotiate", "transport", "pay"].map((s, i) => (
               <li
                 key={s}
@@ -198,11 +198,11 @@ export default function ProductDetailPage() {
           </ol>
 
           {stage === "browse" && (
-            <div className="space-y-5">
-              <p className="font-body text-ink/70">Interested in this harvest? Start by agreeing a price with the farmer.</p>
+            <div className="space-y-4 sm:space-y-5">
+              <p className="font-body text-sm text-ink/70 sm:text-base">Interested in this harvest? Start by agreeing a price with the farmer.</p>
               <button
                 onClick={() => setStage("negotiate")}
-                className="tap-target w-full rounded-full bg-forest px-6 py-3.5 font-body font-semibold text-parchment shadow-soft hover:bg-forest-dark"
+                className="tap-target w-full rounded-full bg-forest px-5 py-3 font-body text-sm font-semibold text-parchment shadow-soft hover:bg-forest-dark sm:py-3.5"
               >
                 {t("agreePrice")}
               </button>
@@ -210,37 +210,37 @@ export default function ProductDetailPage() {
           )}
 
           {stage === "negotiate" && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               <div>
-                <label className="mb-1 block font-body text-sm font-semibold text-ink">How many {product.unit}s?</label>
+                <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">How many {product.unit}s?</label>
                 <input
                   type="number"
                   min={1}
                   value={units}
                   onChange={(e) => setUnits(Math.max(1, Number(e.target.value)))}
-                  className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-ink"
+                  className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3"
                 />
               </div>
               <div>
-                <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("price")} (per {product.unit})</label>
+                <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("price")} (per {product.unit})</label>
                 <input
                   type="number"
                   min={0}
                   value={offer}
                   onChange={(e) => setOffer(Number(e.target.value))}
-                  className="tap-target w-full rounded-xl border border-forest/20 px-4 font-mono text-ink"
+                  className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-mono text-sm text-ink sm:py-3"
                 />
                 <p className="mt-1 font-body text-xs text-ink/50">
                   Listed price: {formatNaira(product.pricePerUnit)}. Adjust to the price you and the farmer agreed on.
                 </p>
               </div>
-              <div className="flex items-center justify-between rounded-xl bg-parchment-dim px-4 py-3">
-                <span className="font-body text-sm font-semibold text-ink">Goods total</span>
-                <span className="font-mono font-semibold text-forest">{formatNaira(goodsTotal)}</span>
+              <div className="flex items-center justify-between rounded-xl bg-parchment-dim px-3 py-2.5 sm:px-4 sm:py-3">
+                <span className="font-body text-xs font-semibold text-ink sm:text-sm">Goods total</span>
+                <span className="font-mono text-sm font-semibold text-forest sm:text-base">{formatNaira(goodsTotal)}</span>
               </div>
               <button
                 onClick={() => setStage("transport")}
-                className="tap-target w-full rounded-full bg-forest px-6 py-3.5 font-body font-semibold text-parchment shadow-soft hover:bg-forest-dark"
+                className="tap-target w-full rounded-full bg-forest px-5 py-3 font-body text-sm font-semibold text-parchment shadow-soft hover:bg-forest-dark sm:py-3.5"
               >
                 {t("chooseTransport")}
               </button>
@@ -248,16 +248,16 @@ export default function ProductDetailPage() {
           )}
 
           {stage === "transport" && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               <div>
-                <label className="mb-1 block font-body text-sm font-semibold text-ink">{t("location")} (delivery state)</label>
+                <label className="mb-1 block font-body text-xs font-semibold text-ink sm:text-sm">{t("location")} (delivery state)</label>
                 <select
                   value={buyerState}
                   onChange={(e) => {
                     setBuyerState(e.target.value);
                     setTransportChoice(null);
                   }}
-                  className="tap-target w-full rounded-xl border border-forest/20 px-4 font-body text-ink"
+                  className="tap-target w-full rounded-xl border border-forest/20 px-4 py-2.5 font-body text-sm text-ink sm:py-3"
                 >
                   {Object.keys(STATE_COORDS).map((s) => (
                     <option key={s} value={s}>
@@ -265,28 +265,28 @@ export default function ProductDetailPage() {
                     </option>
                   ))}
                 </select>
-                <p className="mt-1 font-body text-xs text-ink/50">≈ {distanceKm} km from {product.state}</p>
+                <p className="mt-1 font-body text-xs text-ink/50 sm:mt-1">≈ {distanceKm} km from {product.state}</p>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {transportOptions.map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => setTransportChoice(opt)}
-                    className={`tap-target flex w-full items-center justify-between rounded-xl border-2 px-4 py-3 text-left transition ${
+                    className={`tap-target flex w-full flex-col gap-2 rounded-xl border-2 px-3 py-2.5 text-left transition sm:flex-row sm:items-center sm:justify-between sm:px-4 sm:py-3 ${
                       transportChoice?.id === opt.id
                         ? "border-sky bg-sky/5"
                         : "border-forest/10 bg-white hover:border-forest/30"
                     }`}
                   >
-                    <div>
-                      <p className="font-body font-semibold text-ink">
+                    <div className="flex-1">
+                      <p className="font-body text-sm font-semibold text-ink sm:text-base">
                         {opt.name} {opt.refrigerated && <span className="ml-1 text-xs text-sky">❄️ cold chain</span>}
                       </p>
                       <p className="font-body text-xs text-ink/50">{opt.description}</p>
                       <p className="font-body text-xs text-ink/50">ETA ≈ {opt.estimatedEtaHours} hrs</p>
                     </div>
-                    <span className="font-mono text-sm font-semibold text-forest">{formatNaira(opt.estimatedCostNaira)}</span>
+                    <span className="whitespace-nowrap font-mono text-sm font-semibold text-forest sm:text-base">{formatNaira(opt.estimatedCostNaira)}</span>
                   </button>
                 ))}
               </div>
@@ -294,7 +294,7 @@ export default function ProductDetailPage() {
               <button
                 disabled={!transportChoice}
                 onClick={() => setStage("pay")}
-                className="tap-target w-full rounded-full bg-forest px-6 py-3.5 font-body font-semibold text-parchment shadow-soft hover:bg-forest-dark disabled:cursor-not-allowed disabled:opacity-40"
+                className="tap-target w-full rounded-full bg-forest px-5 py-3 font-body text-sm font-semibold text-parchment shadow-soft hover:bg-forest-dark disabled:cursor-not-allowed disabled:opacity-40 sm:py-3.5"
               >
                 {t("payNow")}
               </button>
