@@ -231,7 +231,7 @@ export default function ConfirmDeliveryPage() {
                 Back to marketplace
               </a>
             </div>
-          )}}
+          )}
         </div>
       </section>
     </main>
