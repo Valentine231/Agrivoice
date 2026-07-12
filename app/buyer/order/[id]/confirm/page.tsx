@@ -161,6 +161,12 @@ export default function ConfirmDeliveryPage() {
               <div className="mb-4 text-3xl sm:text-4xl">⚠️</div>
               <h1 className="font-display text-xl font-semibold text-ink sm:text-2xl">We hit a snag</h1>
               <p className="mt-2 font-body text-xs text-ink/60 sm:text-sm">{errorMsg}</p>
+              <a
+                href="/buyer/marketplace"
+                className="tap-target mt-6 inline-flex items-center justify-center rounded-full bg-parchment-dim px-6 py-3 font-body text-sm font-semibold text-ink shadow-soft hover:bg-forest/10 sm:mt-8 sm:px-8 sm:py-3.5 sm:text-base"
+              >
+                Back to marketplace
+              </a>
             </div>
           )}
 

@@ -36,8 +36,16 @@ export async function verifyTransaction(reference: string) {
   });
   const data = await res.json();
 
-  if (!res.ok || data.data?.status !== "success") {
-    throw new Error(data.message || "Payment not successful");
+  if (!res.ok) {
+    throw new Error(data.message || "Payment verification request failed");
+  }
+
+  if (data.data?.status !== "success") {
+    const status = data.data?.status || "unknown";
+    if (status === "abandoned") {
+      throw new Error("Payment was abandoned or not completed.");
+    }
+    throw new Error(`Payment not successful (status: ${status})`);
   }
 
   return {
