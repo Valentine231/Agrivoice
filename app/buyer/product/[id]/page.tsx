@@ -11,6 +11,7 @@ import { fetchProductById } from "@/lib/products";
 import { isSupabaseConfigured } from "@/lib/supabase/isConfigured";
 import { createClient } from "@/lib/supabase/client";
 import { createOrderAndPay } from "./actions";
+import ChatBox from "@/components/ChatBox";
 
 function formatNaira(amount: number) {
   return new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(
@@ -29,6 +30,8 @@ export default function ProductDetailPage() {
   const [isDemoData, setIsDemoData] = useState(true);
   const [productLoading, setProductLoading] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null); // null = still checking
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -46,6 +49,7 @@ export default function ProductDetailPage() {
               data: { session },
             } = await supabase.auth.getSession();
             setIsSignedIn(!!session?.user);
+            setCurrentUserId(session?.user?.id || null);
           } catch (err) {
             console.error("Sign-in check failed:", err);
             setIsSignedIn(false);
@@ -181,6 +185,21 @@ export default function ProductDetailPage() {
               <p className="mt-4 rounded-xl border border-harvest/30 bg-harvest/5 px-4 py-3 font-body text-sm text-ink/70">
                 Sample listing — connect Supabase to browse and buy real produce.
               </p>
+            )}
+
+            {!isDemoData && farmerId && (
+              <button
+                onClick={() => {
+                  if (!isSignedIn) {
+                    window.location.href = `/login?next=/buyer/product/${id}`;
+                    return;
+                  }
+                  setShowChat(!showChat);
+                }}
+                className="mt-6 tap-target flex items-center justify-center gap-2 rounded-full border-2 border-forest text-forest px-6 py-2.5 font-body font-semibold hover:bg-forest/5"
+              >
+                💬 Message Farmer
+              </button>
             )}
           </div>
         </div>
@@ -347,6 +366,25 @@ export default function ProductDetailPage() {
           )}
         </div>
       </section>
+
+      {showChat && currentUserId && farmerId && product && (
+        <div className="fixed bottom-0 right-0 z-50 w-full sm:w-96 sm:right-5 sm:bottom-5">
+          <div className="relative shadow-2xl rounded-2xl overflow-hidden">
+            <button
+              onClick={() => setShowChat(false)}
+              className="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-ink/10 text-ink hover:bg-ink/20 flex items-center justify-center"
+            >
+              ✕
+            </button>
+            <ChatBox
+              currentUserId={currentUserId}
+              otherUserId={farmerId}
+              otherUserName={product.farmerName}
+              productId={product.id}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

@@ -85,6 +85,46 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["orders"]["Row"]>;
         Relationships: [];
       };
+      messages: {
+        Row: {
+          id: string;
+          sender_id: string;
+          receiver_id: string;
+          product_id: string | null;
+          content: string;
+          read: boolean;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["messages"]["Row"], "id" | "created_at" | "read"> & {
+          id?: string;
+          read?: boolean;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["messages"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -107,3 +147,5 @@ export interface Database {
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type ProductRow = Database["public"]["Tables"]["products"]["Row"];
 export type OrderRow = Database["public"]["Tables"]["orders"]["Row"];
+export type MessageRow = Database["public"]["Tables"]["messages"]["Row"];
+

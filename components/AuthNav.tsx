@@ -8,13 +8,13 @@ import type { Profile } from "@/lib/database.types";
 
 export default function AuthNav() {
   const router = useRouter();
-  const [profile, setProfile] = useState<Profile | null | undefined>(undefined); // undefined = still loading
+  const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
-      setProfile(null); // treat as signed-out in demo mode, no network call
+      setProfile(null);
       return;
     }
 
@@ -75,22 +75,12 @@ export default function AuthNav() {
 
   if (!profile) {
     return (
-      <div className="flex items-center gap-2">
-    
-
-        <a
-          href="/login"
-          className="tap-target inline-flex items-center rounded-full px-4 py-2.5 font-body text-sm font-semibold text-forest hover:bg-forest/5"
-        >
-          Log in
-        </a>
-        <a
-          href="/signup"
-          className="tap-target inline-flex items-center rounded-full bg-forest px-5 py-2.5 font-body text-sm font-semibold text-parchment shadow-soft hover:bg-forest-dark"
-        >
-          Sign up
-        </a>
-      </div>
+      <a
+        href="/login"
+        className="tap-target inline-flex items-center rounded-full bg-forest px-6 py-2 font-body text-sm font-semibold text-white shadow-soft transition-all hover:-translate-y-0.5 hover:bg-forest-dark hover:shadow-md"
+      >
+        Log In
+      </a>
     );
   }
 
@@ -99,69 +89,79 @@ export default function AuthNav() {
   const dashboardHref = profile.role === "farmer" ? "/farmer/dashboard" : "/buyer/marketplace";
 
   return (
-    <div className="relative" ref={menuRef}>
-      <button
-        onClick={() => setMenuOpen((v) => !v)}
-        className="tap-target flex items-center gap-2 rounded-full border border-forest/15 bg-white pl-1.5 pr-3 py-1.5 shadow-soft hover:border-forest/30"
-        aria-haspopup="menu"
-        aria-expanded={menuOpen}
+    <div className="flex items-center gap-2 sm:gap-3">
+      <a
+        href={profile.role === "farmer" ? "/farmer/messages" : "/buyer/messages"}
+        className="tap-target flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-forest/10 text-lg hover:bg-forest/20"
+        title="Messages"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-forest font-display text-sm font-semibold text-parchment">
-          {initial}
-        </span>
-        <span className="max-w-[7rem] truncate font-body text-sm font-semibold text-forest">{firstName}</span>
-        <svg
-          className={`h-3.5 w-3.5 text-forest/50 transition-transform ${menuOpen ? "rotate-180" : ""}`}
-          viewBox="0 0 20 20"
-          fill="currentColor"
+        💬
+      </a>
+      <div className="relative" ref={menuRef}>
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          className="tap-target flex items-center gap-2 rounded-full border border-forest/15 bg-white pl-1.5 pr-3 py-1.5 shadow-soft hover:border-forest/30"
+          aria-haspopup="menu"
+          aria-expanded={menuOpen}
         >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
-
-      {menuOpen && (
-        <div
-          role="menu"
-          className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-soft"
-        >
-          <div className="border-b border-forest/10 px-4 py-3">
-            <p className="truncate font-body text-sm font-semibold text-ink">{profile.full_name}</p>
-            <p className="font-body text-xs capitalize text-ink/50">{profile.role} account</p>
-          </div>
-          <a
-            href={dashboardHref}
-            className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
-            onClick={() => setMenuOpen(false)}
+          <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-forest font-display text-sm font-semibold text-parchment">
+            {initial}
+          </span>
+          <span className="hidden max-w-[7rem] truncate font-body text-sm font-semibold text-forest sm:block">{firstName}</span>
+          <svg
+            className={`h-3.5 w-3.5 text-forest/50 transition-transform ${menuOpen ? "rotate-180" : ""}`}
+            viewBox="0 0 20 20"
+            fill="currentColor"
           >
-            {profile.role === "farmer" ? "My Listings" : "Marketplace"}
-          </a>
-           <a href={profile.role === "farmer" ? "/farmer/orders" : "/buyer/orders"}
-          className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
-          onClick={() => setMenuOpen(false)}
-        >
-          My Orders
-        </a>
-          {profile.role === "farmer" && (
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+
+        {menuOpen && (
+          <div
+            role="menu"
+            className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-soft"
+          >
+            <div className="border-b border-forest/10 px-4 py-3">
+              <p className="truncate font-body text-sm font-semibold text-ink">{profile.full_name}</p>
+              <p className="font-body text-xs capitalize text-ink/50">{profile.role} account</p>
+            </div>
             <a
-              href="/farmer/settings"
+              href={dashboardHref}
               className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
               onClick={() => setMenuOpen(false)}
             >
-              Payout settings
+              {profile.role === "farmer" ? "My Listings" : "Marketplace"}
             </a>
-          )}
-          <button
-            onClick={handleSignOut}
-            className="block w-full px-4 py-3 text-left font-body text-sm font-semibold text-clay hover:bg-clay/5"
-          >
-            Sign out
-          </button>
-        </div>
-      )}
+            <a 
+              href={profile.role === "farmer" ? "/farmer/orders" : "/buyer/orders"}
+              className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
+              onClick={() => setMenuOpen(false)}
+            >
+              My Orders
+            </a>
+            {profile.role === "farmer" && (
+              <a
+                href="/farmer/settings"
+                className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
+                onClick={() => setMenuOpen(false)}
+              >
+                Payout settings
+              </a>
+            )}
+            <button
+              onClick={handleSignOut}
+              className="block w-full px-4 py-3 text-left font-body text-sm font-semibold text-clay hover:bg-clay/5"
+            >
+              Sign out
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

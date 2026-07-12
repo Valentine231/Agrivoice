@@ -1,146 +1,121 @@
-# AgriLink
+# 🌾 AgriLink
 
-A farm-to-buyer marketplace connecting large-scale commercial farmers, buyers who need raw
-agricultural produce, and transporters — with Supabase for auth/data and escrow-style payments
-via Paystack, built for users who may not be comfortable with technology.
+![Next.js](https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)
+![Supabase](https://img.shields.io/badge/Supabase-Database_&_Auth-3ECF8E?style=for-the-badge&logo=supabase)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Paystack](https://img.shields.io/badge/Paystack-Escrow-09A5DB?style=for-the-badge)
 
-## What's in this build
+AgriLink is a **farm-to-buyer marketplace** connecting large-scale commercial farmers directly with buyers who need raw agricultural produce, and transporters who facilitate the logistics. 
 
-- **Auth** (`app/login`, `app/signup`, Supabase Auth) — email/password signup with a role
-  picker (Farmer / Buyer / Transporter). A database trigger auto-creates a `profiles` row the
-  moment someone signs up (see `supabase/migrations/0001_init.sql`).
-- **Database** (Supabase Postgres) — `profiles`, `products`, `orders` tables with Row Level
-  Security locking down who can read/write what. See the schema walkthrough below.
-- **Landing page** (`app/page.tsx`) — hero, the farm→buyer→delivery journey, category tiles,
-  trust/escrow explainer.
-- **Categories & marketplace** (`app/categories`, `app/buyer/marketplace`) — real listings
-  pulled from Supabase, with sample data shown automatically if Supabase isn't configured yet
-  so the UI is still clickable out of the box.
-- **Farmer upload** (`app/farmer/upload`) — requires a farmer account; uploads the photo
-  straight to **Cloudinary** (never to the database — only the resulting URL is stored), then
-  writes the listing via a Server Action.
-- **Farmer dashboard & settings** (`app/farmer/dashboard`, `app/farmer/settings`) — a farmer's
-  own listings, plus a bank-details form that verifies the account with Paystack and stores
-  the resulting Transfer Recipient code — required before any payout can be released to them.
-- **Buyer product page** (`app/buyer/product/[id]`) — negotiate a price → get a transport
-  suggestion (`lib/transport.ts`) → pay. Requires a signed-in buyer to actually pay.
-- **Paystack escrow flow** (`app/api/paystack/*`, `lib/paystack.ts`) — initialize, verify,
-  webhook, release, plus bank-account verification. Order status transitions
-  (`pending → in_escrow → completed`) are only ever written server-side.
-- **Language switcher** — English default, plus Igbo, Yoruba, Hausa (`lib/i18n.tsx`).
+It is built for resilience, accessibility, and trust—featuring **real-time chat**, **escrow-style payments** via Paystack, and a robust role-based architecture powered by **Supabase**.
 
-## Getting started
+---
 
+## ✨ Core Features
+
+- **Role-Based Architecture**: Distinct flows and dashboards for Farmers, Buyers, and Transporters. A database trigger automatically provisions user profiles upon signup.
+- **In-App Real-Time Messaging**: Buyers and farmers can negotiate prices and discuss logistics instantly via a built-in chat platform powered by Supabase Realtime websockets.
+- **Secure Escrow Payments**: Integration with Paystack's Transfer API allows buyers to pay securely upfront. Funds are held in escrow and only released to the farmer once the buyer confirms delivery.
+- **Cloudinary Image Management**: Fast, optimized, and secure image uploads directly from the client to Cloudinary, ensuring the database remains lightweight.
+- **Multilingual Support**: Built-in `i18n` with support for English, Igbo, Yoruba, and Hausa to maximize accessibility for local farmers.
+- **Modern UI/UX**: Premium aesthetic with heavy glassmorphism, responsive mobile-first layouts, and seamless micro-animations built with Tailwind CSS.
+
+---
+
+## 🛠️ Tech Stack
+
+*   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router, Server Actions, Middleware)
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+*   **Database & Auth**: [Supabase](https://supabase.com/) (PostgreSQL, GoTrue Auth, Realtime, Row Level Security)
+*   **Payments**: [Paystack](https://paystack.com/)
+*   **Media Storage**: [Cloudinary](https://cloudinary.com/)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone & Install
 ```bash
+git clone https://github.com/your-org/agrilink.git
+cd agrilink
 npm install
-cp .env.example .env.local   # fill in your keys — see below
+cp .env.example .env.local
 ```
 
-### 1. Set up Supabase
-
-1. Create a project at [supabase.com](https://supabase.com).
-2. In the SQL Editor, run `supabase/migrations/0001_init.sql` — this creates every table,
-   enum, RLS policy, and trigger this app needs, in one shot.
-3. In Settings → API, copy your Project URL, `anon` public key, and `service_role` key into
-   `.env.local` (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
-   `SUPABASE_SERVICE_ROLE_KEY`).
-4. By default Supabase requires email confirmation on signup. For local development you can
-   turn this off under Authentication → Providers → Email → "Confirm email", so signup logs
-   people in immediately. Turn it back on before going to production.
-5. Regenerate proper TypeScript types once your project is linked (the shipped
-   `lib/database.types.ts` is hand-written to match the schema, not generated):
-   ```bash
-   npx supabase gen types typescript --project-id <your-project-ref> > lib/database.types.ts
+### 2. Configure Supabase (Database & Auth)
+1. Create a new project at [Supabase](https://supabase.com).
+2. Open your Supabase SQL Editor and run `supabase/migrations/0001_init.sql` to generate the tables, triggers, and Row Level Security (RLS) policies.
+3. Run the realtime setup script for the messaging feature:
+   ```sql
+   ALTER PUBLICATION supabase_realtime ADD TABLE messages;
    ```
+4. Copy your `Project URL`, `anon` key, and `service_role` key into `.env.local`.
+5. *(Optional for Dev)* Disable "Confirm email" in Supabase Auth settings to test signups instantly.
 
-### 2. Fill in the rest of `.env.local`
+### 3. Configure External Services
+Fill out the remaining `.env.local` variables:
 
-| Variable | Where to get it |
-|---|---|
-| `CLOUDINARY_URL` | Cloudinary dashboard → Settings → API Keys → "API Environment variable" |
-| `PAYSTACK_SECRET_KEY`, `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | dashboard.paystack.com → Settings → API Keys |
+| Variable | Source | Purpose |
+|---|---|---|
+| `CLOUDINARY_URL` | Cloudinary → Settings → API Keys | Storing farmer crop images. |
+| `PAYSTACK_SECRET_KEY` | Paystack Dashboard → API Keys | Server-side escrow payment initialization. |
+| `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | Paystack Dashboard → API Keys | Client-side checkout modal. |
 
-Without Supabase configured, the app still runs and is fully clickable using sample data — you
-just can't sign up, list real produce, or complete a real purchase until it's wired up.
-
+### 4. Run the Development Server
 ```bash
 npm run dev
 ```
+Navigate to `http://localhost:3000`. The application is fully interactive even without a configured database (it will gracefully fall back to demo mode), but real transactions, chat, and listings require Supabase to be wired up.
 
-## Database schema
+---
 
+## 🗄️ Database Schema & RLS
+
+AgriLink relies heavily on Postgres Row Level Security (RLS) to ensure data privacy without heavy backend boilerplate.
+
+*   `profiles` (Public Read / Owner Update): Stores user metadata, roles (`farmer`, `buyer`), and Paystack recipient codes.
+*   `products` (Public Read / Owner Mutate): Harvest listings containing crop details, prices, and Cloudinary image URLs.
+*   `orders` (Participant Read / Admin Mutate): Tracks the escrow lifecycle (`pending` → `in_escrow` → `completed`). Standard users have **no UPDATE permissions**. Statuses are only mutated via highly privileged Server Actions (`lib/supabase/admin.ts`).
+*   `messages` (Participant Read / Sender Insert): Real-time chat history linking buyers and farmers.
+
+---
+
+## 💸 The Escrow Payment Flow
+
+To protect both farmers (from non-payment) and buyers (from non-delivery), AgriLink uses a strict escrow flow:
+
+1. **Initialization**: Buyer agrees on a price via chat and clicks "Pay". A pending `orders` row is created simultaneously with a Paystack checkout session.
+2. **Escrow**: Buyer pays via Paystack. Funds land in AgriLink's corporate Paystack balance. A webhook (`/api/paystack/webhook`) catches the success event and marks the order as `in_escrow`.
+3. **Delivery**: The farmer ships the goods.
+4. **Release**: The buyer inspects the goods and taps "Confirm Delivery" on their dashboard. A Server Action validates the request and utilizes Paystack's Transfer API to push the funds directly to the Farmer's verified bank account.
+
+---
+
+## 📁 Architecture Overview
+
+```text
+agrilink/
+├── app/
+│   ├── api/               # External Webhooks (Paystack, Cloudinary)
+│   ├── auth/              # OAuth Callbacks & Session Management
+│   ├── buyer/             # Buyer Dashboard & Marketplace
+│   ├── farmer/            # Farmer Dashboard, Uploads, & Bank Settings
+│   ├── messages/          # Smart Routing for Inbox
+│   └── page.tsx           # Landing Page
+├── components/            # Reusable UI (Navbar, ChatBox, ProductCards)
+└── lib/
+    ├── supabase/          # Supabase Clients (Server, Client, Middleware, Admin)
+    ├── i18n.tsx           # Multi-language dictionary
+    ├── messages.ts        # Chat fetching and sending logic
+    └── paystack.ts        # Escrow transfer algorithms
 ```
-profiles          — one row per auth user; role is farmer | buyer | transporter | admin
-  ├─ id (= auth.users.id)
-  ├─ role, full_name, phone, state, preferred_language
-  └─ paystack_recipient_code   — set once a farmer adds bank details
 
-products           — a farmer's harvest listing
-  ├─ farmer_id → profiles.id
-  ├─ category, crop_name, quantity_label, unit, price_per_unit, state
-  └─ image_url                — a Cloudinary URL, nothing else
+---
 
-orders              — one row per purchase attempt
-  ├─ product_id, buyer_id, farmer_id
-  ├─ goods_total, transport_*, grand_total, buyer_email
-  ├─ status                    — pending → in_escrow → completed (or disputed/cancelled)
-  └─ paystack_reference, paid_at, delivered_confirmed_at
-```
+## 🔮 Roadmap / What's Next
 
-**Row Level Security, in plain terms:**
-- `profiles` — publicly readable (buyers need to see a farmer's name on listings), but you can
-  only update your own.
-- `products` — active listings are publicly readable; only the owning farmer can
-  insert/update/delete their own.
-- `orders` — a buyer or farmer can only read orders they're part of. Regular users have **no
-  UPDATE policy at all** — every status change (payment confirmed, delivery confirmed, funds
-  released) happens through a Server Action or Route Handler using the service-role client
-  (`lib/supabase/admin.ts`), which checks ownership in application code first. This is what
-  stops a buyer from marking their own order "completed" without actually paying, or a farmer
-  from releasing their own escrow early.
-
-## How the escrow payment works
-
-1. Buyer clicks pay → `app/buyer/product/[id]/actions.ts` creates the `orders` row and calls
-   Paystack's initialize endpoint in the same step, so the DB row and payment reference always
-   match.
-2. Buyer pays on Paystack's page. Funds settle into **AgriLink's Paystack balance** — a
-   CBN-licensed payment institution — never into a personal or company bank account directly.
-3. `app/api/paystack/webhook` (the source of truth) and the buyer's redirect back to
-   `/buyer/order/[id]/confirm` both mark the order `in_escrow`.
-4. Once the buyer taps "Confirm delivery," `app/buyer/order/[id]/actions.ts` re-checks they're
-   really the buyer on that order, confirms the farmer has bank details on file, calls
-   Paystack's Transfer API to pay the farmer (minus a platform fee), and only then marks the
-   order `completed`.
-
-**This reduces regulatory exposure but is not legal advice.** Have a lawyer confirm the
-specific flow (dispute windows, refund policy, escrow licensing thresholds) before handling
-real money.
-
-## Transport suggestions
-
-`lib/transport.ts` currently uses straight-line (haversine) distance between Nigerian state
-capitals as a stand-in for road distance, and a static fleet catalogue. For production, swap:
-
-- The distance calculation → a routing API (Google Distance Matrix, Mapbox Directions) for
-  real road distance and ETA.
-- The static fleet → a live query against your transporter partners' availability.
-
-## Language support
-
-Translations in `lib/i18n.tsx` are a solid starting point for a small set of core UI strings,
-not a certified localization — have native speakers of Igbo, Yoruba, and Hausa review them
-before shipping.
-
-## What to add next (not included in this build)
-
-- **In-app messaging** for the "agree a price" negotiation step — currently just a price
-  input field on the buyer's side.
-- **Dispute handling** — a way for a buyer to flag "goods didn't arrive/don't match" that
-  pauses the release step. The `disputed` order status already exists in the schema; nothing
-  reads or writes it yet.
-- **Transporter accounts** — the `transporter` role exists in the schema and signup flow, but
-  there's no transporter-facing UI yet (accepting jobs, marking pickups/deliveries).
-- **Admin tooling** — for resolving disputes, handling failed transfers, and managing users.
-- **SMS/USSD fallback** — many commercial farmers in remote areas have better access to basic
-  phones than smartphones; a USSD flow for listing produce is worth considering later.
+- [x] **In-App Messaging**: Real-time buyer/farmer negotiation.
+- [ ] **Dispute Resolution**: Escrow pausing and admin arbitration for rejected deliveries.
+- [ ] **Transporter UI**: A dedicated app layout for the `transporter` role to accept jobs and update live locations.
+- [ ] **USSD Integration**: Allowing farmers in remote areas with poor internet to update their listings via SMS/USSD codes.

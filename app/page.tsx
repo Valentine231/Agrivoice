@@ -39,15 +39,12 @@ export default function LandingPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-forest text-parchment">
-        <div className="absolute inset-0 opacity-[0.07]" aria-hidden>
-          <svg width="100%" height="100%">
-            <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="2" fill="currentColor" />
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-          </svg>
-        </div>
+      <section 
+        className="relative overflow-hidden bg-forest text-parchment bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/hero_bg.png')" }}
+      >
+        <div className="absolute inset-0 bg-forest/60 mix-blend-multiply" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest to-transparent opacity-90" aria-hidden />
 
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-20 md:py-28">
           <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-2">
