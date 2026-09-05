@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
         const { data: { user } } = await supabase.auth.getUser();
         const role = user?.user_metadata?.role;
         if (role === "farmer") targetUrl = "/farmer/dashboard";
+        else if (role === "transporter") targetUrl = "/transporter/dashboard";
         else if (role === "buyer") targetUrl = "/buyer/marketplace";
       }
       return NextResponse.redirect(`${origin}${targetUrl}`);

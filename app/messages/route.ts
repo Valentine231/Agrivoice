@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   }
   
   const role = user.user_metadata?.role;
-  const target = role === "farmer" ? "/farmer/messages" : "/buyer/messages";
+  const target = role === "farmer" ? "/farmer/messages" : role === "transporter" ? "/transporter/dashboard" : "/buyer/messages";
   
   return NextResponse.redirect(new URL(target, request.url));
 }

@@ -41,7 +41,7 @@ function LoginForm() {
         .select("role")
         .eq("id", data.user.id)
         .single();
-      router.push(profile?.role === "farmer" ? "/farmer/dashboard" : "/buyer/marketplace");
+      router.push(profile?.role === "farmer" ? "/farmer/dashboard" : profile?.role === "transporter" ? "/transporter/dashboard" : "/buyer/marketplace");
     }
     router.refresh();
   }

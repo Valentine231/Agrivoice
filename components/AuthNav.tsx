@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/isConfigured";
 import type { Profile } from "@/lib/database.types";
+import { useI18n } from "@/lib/i18n";
 
 export default function AuthNav() {
+  const { t } = useI18n();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -79,21 +81,21 @@ export default function AuthNav() {
         href="/login"
         className="tap-target inline-flex items-center rounded-full bg-forest px-6 py-2 font-body text-sm font-semibold text-white shadow-soft transition-all hover:-translate-y-0.5 hover:bg-forest-dark hover:shadow-md"
       >
-        Log In
+        {t("logIn")}
       </a>
     );
   }
 
   const firstName = profile.full_name.split(" ")[0];
   const initial = profile.full_name.trim().charAt(0).toUpperCase() || "?";
-  const dashboardHref = profile.role === "farmer" ? "/farmer/dashboard" : "/buyer/marketplace";
+  const dashboardHref = profile.role === "farmer" ? "/farmer/dashboard" : profile.role === "transporter" ? "/transporter/dashboard" : "/buyer/marketplace";
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
       <a
-        href={profile.role === "farmer" ? "/farmer/messages" : "/buyer/messages"}
+        href={profile.role === "farmer" ? "/farmer/messages" : profile.role === "transporter" ? "/transporter/dashboard" : "/buyer/messages"}
         className="tap-target flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-forest/10 text-lg hover:bg-forest/20"
-        title="Messages"
+        title={t("messagesNav")}
       >
         💬
       </a>
@@ -128,36 +130,38 @@ export default function AuthNav() {
           >
             <div className="border-b border-forest/10 px-4 py-3">
               <p className="truncate font-body text-sm font-semibold text-ink">{profile.full_name}</p>
-              <p className="font-body text-xs capitalize text-ink/50">{profile.role} account</p>
+              <p className="font-body text-xs capitalize text-ink/50">{t(profile.role)} {t("accountSuffix")}</p>
             </div>
             <a
               href={dashboardHref}
               className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
               onClick={() => setMenuOpen(false)}
             >
-              {profile.role === "farmer" ? "My Listings" : "Marketplace"}
+              {profile.role === "farmer" ? t("myListings") : profile.role === "transporter" ? t("transporterDashboard") : t("marketplace")}
             </a>
-            <a 
-              href={profile.role === "farmer" ? "/farmer/orders" : "/buyer/orders"}
-              className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
-              onClick={() => setMenuOpen(false)}
-            >
-              My Orders
-            </a>
+            {profile.role !== "transporter" && (
+              <a 
+                href={profile.role === "farmer" ? "/farmer/orders" : "/buyer/orders"}
+                className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t("myOrders")}
+              </a>
+            )}
             {profile.role === "farmer" && (
               <a
                 href="/farmer/settings"
                 className="block px-4 py-3 font-body text-sm text-ink hover:bg-forest/5"
                 onClick={() => setMenuOpen(false)}
               >
-                Payout settings
+                {t("payoutSettings")}
               </a>
             )}
             <button
               onClick={handleSignOut}
               className="block w-full px-4 py-3 text-left font-body text-sm font-semibold text-clay hover:bg-clay/5"
             >
-              Sign out
+              {t("signOut")}
             </button>
           </div>
         )}

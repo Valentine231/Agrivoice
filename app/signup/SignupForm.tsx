@@ -54,7 +54,7 @@ function SignupForm() {
 
     if (data.session) {
       // Email confirmation is off in your Supabase project — signed in immediately.
-      router.push(next || (role === "farmer" ? "/farmer/dashboard" : "/buyer/marketplace"));
+      router.push(next || (role === "farmer" ? "/farmer/dashboard" : role === "transporter" ? "/transporter/dashboard" : "/buyer/marketplace"));
       router.refresh();
     } else {
       // Email confirmation is on — they need to click the link we just sent.

@@ -13,6 +13,8 @@ export async function createOrderAndPay(input: {
   transportOptionId: string;
   transportName: string;
   transportCost: number;
+  pickupState: string;
+  dropoffState: string;
   grandTotal: number;
   buyerEmail: string;
 }) {
@@ -43,6 +45,8 @@ export async function createOrderAndPay(input: {
     transport_option_id: input.transportOptionId,
     transport_name: input.transportName,
     transport_cost: input.transportCost,
+    pickup_state: input.pickupState,
+    dropoff_state: input.dropoffState,
     grand_total: input.grandTotal,
     buyer_email: input.buyerEmail,
     paystack_reference: reference,

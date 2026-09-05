@@ -46,8 +46,9 @@ export async function updateSession(request: NextRequest) {
   // Route protection rules
   const isFarmerRoute = path.startsWith("/farmer");
   const isBuyerOrderRoute = path.startsWith("/buyer/order");
+  const isTransporterRoute = path.startsWith("/transporter");
 
-  if (isFarmerRoute || isBuyerOrderRoute) {
+  if (isFarmerRoute || isBuyerOrderRoute || isTransporterRoute) {
     if (!user) {
       isRedirecting = true;
       redirectUrl.pathname = "/login";
@@ -56,10 +57,13 @@ export async function updateSession(request: NextRequest) {
       const role = user.user_metadata?.role;
       if (isFarmerRoute && role !== "farmer") {
         isRedirecting = true;
-        redirectUrl.pathname = role === "buyer" ? "/buyer/marketplace" : "/";
+        redirectUrl.pathname = role === "buyer" ? "/buyer/marketplace" : role === "transporter" ? "/transporter/dashboard" : "/";
       } else if (isBuyerOrderRoute && role !== "buyer") {
         isRedirecting = true;
-        redirectUrl.pathname = role === "farmer" ? "/farmer/dashboard" : "/";
+        redirectUrl.pathname = role === "farmer" ? "/farmer/dashboard" : role === "transporter" ? "/transporter/dashboard" : "/";
+      } else if (isTransporterRoute && role !== "transporter") {
+        isRedirecting = true;
+        redirectUrl.pathname = role === "farmer" ? "/farmer/dashboard" : role === "buyer" ? "/buyer/marketplace" : "/";
       }
     }
   }

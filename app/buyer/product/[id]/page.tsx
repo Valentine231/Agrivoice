@@ -127,6 +127,8 @@ export default function ProductDetailPage() {
         transportOptionId: transportChoice?.id ?? "",
         transportName: transportChoice?.name ?? "",
         transportCost,
+        pickupState: product.state,
+        dropoffState: buyerState,
         grandTotal,
         buyerEmail: email,
       });
