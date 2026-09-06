@@ -58,12 +58,15 @@ export interface Database {
           product_id: string;
           buyer_id: string;
           farmer_id: string;
+          transporter_id: string | null;
           crop_name: string;
           quantity_label: string;
           goods_total: number;
           transport_option_id: string | null;
           transport_name: string | null;
           transport_cost: number;
+          pickup_state: string | null;
+          dropoff_state: string | null;
           grand_total: number;
           buyer_email: string;
           status: OrderStatusDb;
@@ -74,13 +77,16 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<
+        Insert: Omit
           Database["public"]["Tables"]["orders"]["Row"],
-          "id" | "created_at" | "updated_at" | "status" | "paid_at" | "delivered_confirmed_at" | "shipped_at"
+          "id" | "created_at" | "updated_at" | "status" | "paid_at" | "delivered_confirmed_at" | "shipped_at" | "transporter_id" | "pickup_state" | "dropoff_state"
         > & {
           id?: string;
           status?: OrderStatusDb;
           shipped_at?: string | null;
+          transporter_id?: string | null;
+          pickup_state?: string | null;
+          dropoff_state?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["orders"]["Row"]>;
         Relationships: [];
@@ -148,4 +154,3 @@ export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type ProductRow = Database["public"]["Tables"]["products"]["Row"];
 export type OrderRow = Database["public"]["Tables"]["orders"]["Row"];
 export type MessageRow = Database["public"]["Tables"]["messages"]["Row"];
-
