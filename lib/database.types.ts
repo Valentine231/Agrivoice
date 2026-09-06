@@ -9,7 +9,7 @@
 export type UserRole = "farmer" | "buyer" | "transporter" | "admin";
 export type ProductCategoryDb = "cashCrop" | "perishable" | "grain" | "livestock" | "tuber";
 export type ProductStatus = "active" | "sold" | "archived";
-export type OrderStatusDb = "pending" | "in_escrow" | "shipped" | "completed" | "disputed" | "cancelled";;
+export type OrderStatusDb = "pending" | "in_escrow" | "shipped" | "completed" | "disputed" | "cancelled";
 
 export interface Database {
   public: {
@@ -45,10 +45,7 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["products"]["Row"], "id" | "created_at" | "updated_at" | "status"> & {
-          id?: string;
-          status?: ProductStatus;
-        };
+        Insert: Omit<Database["public"]["Tables"]["products"]["Row"], "id" | "created_at" | "updated_at" | "status"> & { id?: string; status?: ProductStatus };
         Update: Partial<Database["public"]["Tables"]["products"]["Row"]>;
         Relationships: [];
       };
@@ -77,17 +74,7 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit
-          Database["public"]["Tables"]["orders"]["Row"],
-          "id" | "created_at" | "updated_at" | "status" | "paid_at" | "delivered_confirmed_at" | "shipped_at" | "transporter_id" | "pickup_state" | "dropoff_state"
-        > & {
-          id?: string;
-          status?: OrderStatusDb;
-          shipped_at?: string | null;
-          transporter_id?: string | null;
-          pickup_state?: string | null;
-          dropoff_state?: string | null;
-        };
+        Insert: Omit<Database["public"]["Tables"]["orders"]["Row"], "id" | "created_at" | "updated_at" | "status" | "paid_at" | "delivered_confirmed_at" | "shipped_at" | "transporter_id" | "pickup_state" | "dropoff_state"> & { id?: string; status?: OrderStatusDb; shipped_at?: string | null; transporter_id?: string | null; pickup_state?: string | null; dropoff_state?: string | null };
         Update: Partial<Database["public"]["Tables"]["orders"]["Row"]>;
         Relationships: [];
       };
@@ -101,11 +88,7 @@ export interface Database {
           read: boolean;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["messages"]["Row"], "id" | "created_at" | "read"> & {
-          id?: string;
-          read?: boolean;
-          created_at?: string;
-        };
+        Insert: Omit<Database["public"]["Tables"]["messages"]["Row"], "id" | "created_at" | "read"> & { id?: string; read?: boolean; created_at?: string };
         Update: Partial<Database["public"]["Tables"]["messages"]["Row"]>;
         Relationships: [
           {
