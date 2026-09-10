@@ -627,6 +627,25 @@ const dict: Record<string, Record<LangCode, string>> = {
   markPickedUpBtn: { en: "Mark picked up & shipped", ig: "Kaa Ya Dị Ka Ebutere & Ebunyela", yo: "Sàmì Sí Gẹ́gẹ́ Bí Gbígbà & Fífijíṣẹ́", ha: "Yiwa Alama An Karɓa & An Aika" },
   awaitingBuyerConfirm: { en: "Waiting for buyer to confirm delivery", ig: "Na-eche ka onye na-azụ ahịa kwado nnata", yo: "Ń dúró de oníbàárà láti jẹ́rìí ìfìjíṣẹ́", ha: "Ana jiran mai saye ya tabbatar da isarwa" },
   notSpecified: { en: "Not specified", ig: "Akọwapụtaghị", yo: "A Kò Sọ", ha: "Ba A Bayyana Ba" },
+
+  // AI Assistant widget
+  assistantTitle: { en: "AgriLink Assistant", ig: "Onye Enyemaka AgriLink", yo: "Olùrànlọ́wọ́ AgriLink", ha: "Mataimakin AgriLink" },
+  assistantWelcome: {
+    en: "Hi! I can help with questions about how AgriLink works, shopping tips, or writing a better listing. What do you need?",
+    ig: "Ndewo! Enwere m ike inyere gị aka na ajụjụ gbasara otu AgriLink si arụ ọrụ, ndụmọdụ ịzụ ahịa, ma ọ bụ ide ihe ire ka mma. Gịnị ka ị chọrọ?",
+    yo: "Bawo! Mo lè ràn ọ́ lọ́wọ́ pẹ̀lú àwọn ìbéèrè nípa bí AgriLink ṣe ń ṣiṣẹ́, ìmọ̀ràn ríra ọjà, tàbí kíkọ ọ̀rọ̀ tí ó tà dáradára. Kí ni o nílò?",
+    ha: "Sannu! Zan iya taimaka maka da tambayoyi game da yadda AgriLink ke aiki, shawarwarin siyayya, ko rubuta jerin abu mafi kyau. Me kake bukata?",
+  },
+  assistantPlaceholder: { en: "Ask me anything about AgriLink…", ig: "Jụọ m ihe ọ bụla gbasara AgriLink…", yo: "Bi mi ohunkóhun nípa AgriLink…", ha: "Tambaye ni komai game da AgriLink…" },
+  assistantThinking: { en: "Thinking…", ig: "Na-eche…", yo: "Ń ronú…", ha: "Ana tunani…" },
+  assistantError: {
+    en: "Sorry, I couldn't respond just now. Please try again.",
+    ig: "Ndo, enweghị m ike ịza ugbu a. Biko nwaa ọzọ.",
+    yo: "Má bínú, n kò lè dáhùn báyìí. Jọ̀wọ́ gbìyànjú lẹ́ẹ̀kansí.",
+    ha: "Yi hakuri, ban iya amsawa yanzu ba. Don Allah sake gwadawa.",
+  },
+  openAssistant: { en: "Chat with AgriLink Assistant", ig: "Kparịta ụka na Onye Enyemaka AgriLink", yo: "Bá Olùrànlọ́wọ́ AgriLink Sọ̀rọ̀", ha: "Yi Hira Da Mataimakin AgriLink" },
+  closeAssistantLabel: { en: "Close", ig: "Mechie", yo: "Ti", ha: "Rufe" },
 };
 
 export type DictKey = keyof typeof dict;

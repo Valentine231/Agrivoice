@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n";
+import AIAssistant from "@/components/AIAssistant";
 
 export const metadata: Metadata = {
   title: "AgriLink — Farm to Buyer, Made Simple",
@@ -12,7 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="font-body">
-        <I18nProvider>{children}</I18nProvider>
+        <I18nProvider>
+          {children}
+          <AIAssistant />
+        </I18nProvider>
       </body>
     </html>
   );
