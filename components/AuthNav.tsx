@@ -71,15 +71,15 @@ export default function AuthNav() {
     router.refresh();
   }
 
-  if (profile === undefined) {
-    return <div className="h-10 w-24 animate-pulse rounded-full bg-forest/5" />;
-  }
+if (profile === undefined) {
+  return <div className="h-10 w-16 animate-pulse rounded-full bg-forest/5 sm:w-24" />;
+}
 
   if (!profile) {
     return (
       <a
         href="/login"
-        className="tap-target inline-flex items-center rounded-full bg-forest px-6 py-2 font-body text-sm font-semibold text-white shadow-soft transition-all hover:-translate-y-0.5 hover:bg-forest-dark hover:shadow-md"
+        className="tap-target inline-flex items-center rounded-full px-3 py-2 font-body text-sm font-semibold text-black shadow-soft transition-all hover:-translate-y-0.5 hover:bg-forest-light hover:shadow-md sm:px-4 sm:py-3"
       >
         {t("logIn")}
       </a>
@@ -91,7 +91,7 @@ export default function AuthNav() {
   const dashboardHref = profile.role === "farmer" ? "/farmer/dashboard" : profile.role === "transporter" ? "/transporter/dashboard" : "/buyer/marketplace";
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-1.5 sm:gap-3">
       <a
         href={profile.role === "farmer" ? "/farmer/messages" : profile.role === "transporter" ? "/transporter/dashboard" : "/buyer/messages"}
         className="tap-target flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-forest/10 text-lg hover:bg-forest/20"
